@@ -52,6 +52,9 @@ def upload():
     # subprocess.call('script.sh')
     if request.method == 'POST':
         file = request.files['file']
+        filename = secure_filename(file.filename)
+        if not (filename == 'Table_A.xlsx' or filename == 'Table_B.xlsx'):
+            return render_template('filename_error.html')
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             # new_filename = f'{filename.split(".")[0]}_{str(datetime.now())}.xlsx'
@@ -65,9 +68,13 @@ def upload():
                 if subfile.endswith('.xlsx'):
                     temp.append(subfile)
             if len(temp) == 2:
-                process_excel()
+                try:
+                    process_excel()
+                    return redirect(url_for('download'))
+                except:
+                    return render_template('file_error.html')
                 #return send_from_directory('output', output_file)
-                return redirect(url_for('download'))
+                
                 # return redirect(url_for('index.html'))
                 # render_template('index.html')
             # else:
@@ -104,6 +111,8 @@ def delete_result():
 def sort():
     if request.method == 'POST':
         file = request.files['file']
+        if not (file.filename == 'Table_A.xlsx' or file.filename == 'Table_B.xlsx'):
+            return render_template('filename_error.html')
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             save_location = os.path.join('input', filename)
@@ -115,7 +124,10 @@ def sort():
                 if subfile.endswith('.xlsx'):
                     temp.append(subfile)
             if len(temp) == 2:
-                output_file = process_excel_sorted()
+                try:
+                    process_excel_sorted()
+                except:
+                    return render_template('file_error.html')
                 return redirect(url_for('download'))
     return render_template('index.html', uploaded=os.listdir('input'), files = os.listdir(os.getcwd() + '\\example'), download=os.listdir('output'))
 
@@ -123,25 +135,35 @@ def sort():
 def nodes():
     if request.method == 'POST':
         file = request.files['file']
+        if file.filename != 'Table_B.xlsx':
+            return render_template('filename_error.html')
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             save_location = os.path.join('input', filename)
             file.save(save_location)
             files = os.listdir('.\\input')
-            process_excel_nodes()
+            try:
+                process_excel_nodes()
+            except Exception:
+                return render_template('file_error.html')
             return redirect(url_for('download'))
     return render_template('index.html', uploaded=os.listdir('input'), files = os.listdir(os.getcwd() + '\\example'), download=os.listdir('output'))
-    
+
 @app.route('/nodes_sort', methods=['GET', 'POST'])
 def nodes_sort():
     if request.method == 'POST':
         file = request.files['file']
+        if file.filename != 'Table_B.xlsx':
+            return render_template('filename_error.html')
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             save_location = os.path.join('input', filename)
             file.save(save_location)
             files = os.listdir('.\\input')
-            process_excel_nodes_sort()
+            try:
+                process_excel_nodes_sort()
+            except Exception:
+                return render_template('file_error.html')
             return redirect(url_for('download'))
     return render_template('index.html', uploaded=os.listdir('input'), files = os.listdir(os.getcwd() + '\\example'), download=os.listdir('output'))
 
