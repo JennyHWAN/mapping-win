@@ -1,116 +1,45 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"> -->
-    <style>
-        .center-heading {
-            text-align: center;
-        }
-
-        /* li:hover a {
-            background: blue;
-        } */
-
-        .dropdown:hover>.dropdown-menu {
-        display: block;
-        margin-right: 20px !important;
-        left: -100;
-        }
-
-        .dropdown>.dropdown-toggle:active {
-        /*Without this, clicking will make it sticky*/
-            pointer-events: none;
-        }
-
-        .nav-container {
-            background-color: lightgray;
-            padding: 1.5%;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-        }
-
-        .nav-container a {
-            text-decoration: none;
-            font-size: 20px;
-            color: black;
-            
-        }
-
-        .change {
-            display: none;
-        }
-
-        .container {
-            position: absolute;
-            right: 2%;
-        }
-
-        .container:hover + .change {
-            display: block;
-            text-align: right;
-        }
-
-        .container:hover {
-            color: rgb(205, 97, 50); 
-        }
-
-        .color-change:hover {
-            color: rgb(205, 97, 50);
-        }
-
-    </style>
-
-</head>
-<body>
-    <div class="nav-container">
-        <a class="color-change" href="{{ url_for('render_index_page') }}">Home</a>
-        <a class="color-change" style="right: 45%; position: fixed; font-size: medium;" href="{{ url_for('instruction') }}">使用说明 - 中文</a>
-        <a class="container">©Jenny YJ Huang</a>
-        <a class="change">Email: Jenny.YJ.Huang@cn.ey.com <br />
-            Zoom: Jenny Huang
-        </a>
-    </div>
-        <br />
-        <br />
-	<h1 class="center-heading" style="padding-top: 5%;">Mapping Function</h1>
+{% extends 'navbar.html' %}
+{% block navbar %}
+<h1 class="center-heading" style="padding-top: 5%;">Mapping Function</h1>
     <div style="text-align: center;">压缩文件夹中的所有文件均为该程序的依赖文件，不可移动或删除，可以设置桌面快捷键</div>
-    <!-- <div style="text-align: center;">本程序针对SOC项目的mapping制作</div> -->
         <div style="padding: 25px 25px 25px 25px;">
         <div class="card-body">
             <div class="mb-3">
                 </div>
                 <hr />
 
-                <h3>Instruction:</h3>
+                <h3>Example of upload files - Click for download</h3>
                 <div>
-                This is especially for SOC projects
-                Mapping from table A to table B, 
-                expample of upload files are at the "Example of upload files" section. Feel free to reach out if you have any question or comment!<br />
-                <div style="color: red; font-weight: bold; padding-top: 2%;">
-                    PLEASE NOTE: 
-                </div>
                     <div>Upload files' <b>FIELD</b> and file <b>NAMES</b> must be exactly the same as those in the example's template!!!</div>
-
-                <!-- <a href="{{ url_for('download_file', filename=filename) }}">{{ filename }}</a><br /> -->
+                    <div style="padding-bottom: 1%; padding-top: 1%;">
+                        {% for name in files %}
+                        {% if name.endswith('.xlsx') %}
+                        <a href="{{ url_for('default_file', name=name) }}">{{ name }}</a><br />
+                        {% endif %}
+                        {% endfor %}
+                    </div>
                 </div>
 
-                <!-- <label class="form-label">Please upload table A and Table B</label> -->
                 <hr />
                 <div>
                     <h3>Not Sorted</h3>
                     Please upload Table_A and Table_B <br />
                     This function is to convert "control to criteria" in table B to "criteria to control" in table A.
                 </div>
-                <!-- <input type="number" class="form-control" id="num1"> -->
+        
                 <br />
 
                 <form class="" action="upload" method="POST" enctype="multipart/form-data">
-                    <!-- <input type="file" name="upload-file" value=""> -->
                     <input type="file" id="file" name="file">
-                    <!-- <input type="submit" name="" value="Submit"> -->
                     <button>Upload</button>
+                    <div style="padding-top: 1%; padding-bottom: 1%;">
+                    Uploaded file(s):
+                    {% if not_sorted %}
+                        {% for filename in not_sorted %}
+                        <a href="{{ url_for('upload_files', upload_name=filename) }}">{{ filename }}</a><br /> 
+                        {% endfor %}
+                    {% endif %}
+                    </div>
                 </form>
 
                 <hr />
@@ -119,13 +48,18 @@
                     Please upload Table_A and Table_B <br />
                     This function is to convert "control to criteria" in table B to "criteria to control" in table A and sort the "Criteria" of the output.
                 </div>
-                <!-- <input type="number" class="form-control" id="num1"> -->
                 <br /> 
                 <form class="" action="sort" method="POST" enctype="multipart/form-data">
-                    <!-- <input type="file" name="upload-file" value=""> -->
                     <input type="file" id="file" name="file">
-                    <!-- <input type="submit" name="" value="Submit"> -->
                     <button>Upload</button>
+                    <div style="padding-top: 1%; padding-bottom: 1%;">
+                        Uploaded file(s):
+                        {% if sorted %}
+                            {% for filename in sorted %}
+                            <a href="{{ url_for('upload_files', upload_name=filename) }}">{{ filename }}</a><br /> 
+                            {% endfor %}
+                        {% endif %}
+                    </div>
                 </form>
 
                 <hr />
@@ -138,6 +72,14 @@
                 <form class="" action="nodes" method="POST" enctype="multipart/form-data">
                     <input type="file" id="file" name="file">
                     <button>Upload</button>
+                    <div style="padding-top: 1%; padding-bottom: 1%;">
+                        Uploaded file(s):
+                        {% if nodes %}
+                            {% for filename in nodes %}
+                            <a href="{{ url_for('upload_files', upload_name=filename) }}">{{ filename }}</a><br /> 
+                            {% endfor %}
+                        {% endif %}
+                    </div>
                 </form>
 
                 <hr />
@@ -150,39 +92,19 @@
                 <form class="" action="nodes_sort" method="POST" enctype="multipart/form-data">
                     <input type="file" id="file" name="file">
                     <button>Upload</button>
+                    <div style="padding-top: 1%; padding-bottom: 1%;">
+                        Uploaded file(s):
+                        {% if nodes_sorted %}
+                            {% for filename in nodes_sorted %}
+                            <a href="{{ url_for('upload_files', upload_name=filename) }}">{{ filename }}</a><br /> 
+                            {% endfor %}
+                        {% endif %}
+                    </div>
                 </form>
 
             </div>
-            <br />
-            <br />
         </div>
 
-    <hr />
-    <h1 class="center-heading">Uploaded file(s)</h1> 
-    <div style="text-align: center;">
-    {% if uploaded %}
-    {% for filename in uploaded %}
-    <a href="{{ url_for('upload_files', upload_name=filename) }}">{{ filename }}</a><br /> 
-    {% endfor %}
-    {% endif %}
-    </div>
-    <br />
-
-    <hr />
-	<h1 class="center-heading">Example of upload files - Click for download</h1> 
-    <!-- {% if files %} -->
-    <div style="text-align: center;">
-    {% for name in files %}
-    {% if name.endswith('.xlsx') %}
-    <a href="{{ url_for('default_file', name=name) }}">{{ name }}</a><br />
-    {% endif %}
-    {% endfor %}
-    </div>
-    <!-- {% endif %} -->
-            <!-- <div style="padding: 25px 25px 25px 25px;">
-    
-            <div id="system_response" style="padding: 25px;"></div>
-        </div> -->
         <hr />
     <h1 class="center-heading">Result - Click for download</h1> 
     <div style="text-align: center;">
@@ -196,8 +118,4 @@
         <br />
         <button>Delete Result History</button>
     </form>
-    <!-- <a href="{{ url_for('delete_result') }}">Delete Result</a>
-    <br />  -->
-    
-</body>
-</html>
+{% endblock %}

@@ -40,13 +40,6 @@ def default_file(name):
     return send_from_directory('example', name)
     # return send_file(os.getcwd() + '/example' + name, as_attachment=True)
 
-# @app.route("/data", methods = ['GET', 'POST'])
-# def data():
-#     if request.method == 'POST':
-#         file = request.form['upload-file']
-#         data = pd.read_excel(file)
-#         return render_template('data.html', data=data.to_excel)
-
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
     # subprocess.call('script.sh')
@@ -81,7 +74,7 @@ def upload():
             #     return redirect(url_for('index'))
     
     # files1 = os.listdir('example')
-    return render_template('index.html', uploaded=os.listdir('input'), files = os.listdir(os.getcwd() + '\\example'), download=os.listdir(os.getcwd() + '\\output'))
+    return render_template('index.html', not_sorted=os.listdir('input'), files = os.listdir(os.getcwd() + '\\example'), download=os.listdir(os.getcwd() + '\\output'))
 
 @app.route('/upload/<upload_name>')
 def upload_files(upload_name):
@@ -129,7 +122,7 @@ def sort():
                 except:
                     return render_template('file_error.html')
                 return redirect(url_for('download'))
-    return render_template('index.html', uploaded=os.listdir('input'), files = os.listdir(os.getcwd() + '\\example'), download=os.listdir('output'))
+    return render_template('index.html', sorted=os.listdir('input'), files = os.listdir(os.getcwd() + '\\example'), download=os.listdir('output'))
 
 @app.route('/nodes', methods=['GET', 'POST'])
 def nodes():
@@ -147,7 +140,7 @@ def nodes():
             except Exception:
                 return render_template('file_error.html')
             return redirect(url_for('download'))
-    return render_template('index.html', uploaded=os.listdir('input'), files = os.listdir(os.getcwd() + '\\example'), download=os.listdir('output'))
+    return render_template('index.html', nodes=os.listdir('input'), files = os.listdir(os.getcwd() + '\\example'), download=os.listdir('output'))
 
 @app.route('/nodes_sort', methods=['GET', 'POST'])
 def nodes_sort():
@@ -165,7 +158,7 @@ def nodes_sort():
             except Exception:
                 return render_template('file_error.html')
             return redirect(url_for('download'))
-    return render_template('index.html', uploaded=os.listdir('input'), files = os.listdir(os.getcwd() + '\\example'), download=os.listdir('output'))
+    return render_template('index.html', nodes_sorted=os.listdir('input'), files = os.listdir(os.getcwd() + '\\example'), download=os.listdir('output'))
 
 
 if __name__ == "__main__":

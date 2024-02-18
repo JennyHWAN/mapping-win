@@ -1,80 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"> -->
-    <style>
-        .center-heading {
-            text-align: center;
-        }
-
-        /* li:hover a {
-            background: blue;
-        } */
-
-        .dropdown:hover>.dropdown-menu {
-        display: block;
-        margin-right: 20px !important;
-        left: -100;
-        }
-
-        .dropdown>.dropdown-toggle:active {
-        /*Without this, clicking will make it sticky*/
-            pointer-events: none;
-        }
-
-        .nav-container {
-            background-color: lightgray;
-            padding: 1.5%;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-        }
-
-        .nav-container a {
-            text-decoration: none;
-            font-size: 20px;
-            color: black;
-            
-        }
-
-        .change {
-            display: none;
-        }
-
-        .container {
-            position: absolute;
-            right: 2%;
-        }
-
-        .container:hover + .change {
-            display: block;
-            text-align: right;
-        }
-
-        .container:hover {
-            color: rgb(205, 97, 50); 
-        }
-
-        .color-change:hover {
-            color: rgb(205, 97, 50);
-        }
-
-
-    </style>
-
-</head>
-<body>
-    <div class="nav-container">
-        <a class="color-change" href="{{ url_for('render_index_page') }}">Home</a>
-        <a class="color-change" style="right: 45%; position: fixed; font-size: medium">使用说明 - 中文</a>
-        <a class="container">©Jenny YJ Huang</a>
-        <a class="change">Email: Jenny.YJ.Huang@cn.ey.com <br />
-            Zoom: Jenny Huang
-        </a>
-    </div>
-        <br />
-        <br />
+{% extends 'navbar.html' %}
+{% block navbar %}
 	<h1 class="center-heading" style="padding-top: 5%;">Mapping Function</h1>
     <div style="text-align: center;">本程序针对SOC项目的mapping制作</div>
     <div style="text-align: center;">压缩文件夹中的所有文件均为该程序的依赖文件，不可移动或删除，可以设置桌面快捷键</div>
@@ -97,7 +22,7 @@
                     3. 不要对文件重命名，若是使用"Not Sorted"或"Sorted"的功能，确保上传的文件名为Table_A和Table_B；<br />
                     4. 若是使用"Convert Table B Only - Not Sorted"或"Convert Table B Only - Sorted"的功能，确保上传的文件名为Table_B；<br />
                     5. 上传的文件会显示至下方的"Uploaded file(s)"中，每个功能上传至最后一个文件时自动删除上传的文件；<br />
-                    6. 运行结束后的结果会显示至下方的"Result - Click for download"中，点击自动下载；<br />
+                    6. 运行结束后的结果会显示至最下方的"Result - Click for download"中，点击自动下载；<br />
                     7. "Result - Click for download"中的文件会保留所有的输出历史，若需要删除，则点击最下方按钮"Delete Result History"清空所有的历史记录；<br />
                 </div>
 
@@ -115,4 +40,4 @@
             </div>
         </div>
     </div>
-</body>
+{% endblock %}

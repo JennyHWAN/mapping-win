@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"> -->
+    <style>
+        .center-heading {
+            text-align: center;
+        }
+
+        /* li:hover a {
+            background: blue;
+        } */
+
+        .dropdown:hover>.dropdown-menu {
+        display: block;
+        margin-right: 20px !important;
+        left: -100;
+        }
+
+        .dropdown>.dropdown-toggle:active {
+        /*Without this, clicking will make it sticky*/
+            pointer-events: none;
+        }
+
+        .nav-container {
+            background-color: lightgray;
+            padding: 1.5%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+        }
+
+        .nav-container a {
+            text-decoration: none;
+            font-size: 20px;
+            color: black;
+        }
+        /* origin copyright content */
+        /* .change {
+            display: none;
+        }
+
+        .container {
+            position: absolute;
+            right: 2%;
+        }
+
+        .container:hover + .change {
+            display: block;
+            text-align: right;
+        }
+
+        .container:hover {
+            color: rgb(205, 97, 50); 
+        } */
+
+        .color-change:hover {
+            color: rgb(205, 97, 50);
+        }
+
+        /* Dropdown Button */
+        .dropbtn {
+            /* right: 0; */
+            /* top: 2.7%; */
+            /* position: absolute; */
+            font-family: 'Times New Roman', Times, serif;
+            background-color: lightgray;
+            border: none;
+            text-decoration: none;
+            font-size: 20px;
+            color: black;
+        }
+
+        /* The container <div> - needed to position the dropdown content */
+        .dropdown {
+        position: absolute;
+        right: 1.5%;
+        display: inline-block;
+        }
+
+        /* Dropdown Content (Hidden by Default) */
+        .dropdown-content {
+        display: none;
+        right: 1.5%;
+        position: fixed;
+        padding-top: 2.5%;
+        text-align: end;
+        background-color: none;
+        /* min-width: 160px; */
+        /* box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); */
+        z-index: 1;
+        }
+
+        /* Links inside the dropdown */
+        .dropdown-content a {
+        color: black;
+        text-decoration: none;
+        display: block;
+        }
+
+        /* Change color of dropdown links on hover */
+        .dropdown-content a:hover {background-color: none;}
+
+        /* Show the dropdown menu on hover */
+        .dropdown:hover .dropdown-content {display: block;}
+
+        /* Change the background color of the dropdown button when the dropdown content is shown */
+        .dropdown:hover .dropbtn {color: rgb(205, 97, 50);}
+
+    </style>
+
+</head>
+<body>
+    <div class="nav-container">
+        <a class="color-change" href="{{ url_for('render_index_page') }}">Home</a>
+        <a class="color-change" style="right: 45%; position: fixed; font-size: medium;" href="{{ url_for('instruction') }}">使用说明 - 中文</a>
+        <div class="dropdown">
+            <button class="dropbtn">©Jenny YJ Huang</button>
+            <div class="dropdown-content">
+              <a>
+                Email: Jenny.YJ.Huang@cn.ey.com <br />
+                Zoom: Jenny Huang
+              </a>
+            </div>
+        </div>
+    </div>
+        <br />
+        <br />
+</body>
+</html>
+{% block navbar %}{% endblock %}
